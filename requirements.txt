@@ -1,0 +1,19 @@
+django==5.2
+django-decouple==2.1
+django-celery-beat==2.8.1
+django-jazzmin==3.0.1
+wheel==0.45.1
+requests==2.32.3
+asyncio==3.4.3
+loguru==0.7.3
+django-redis==5.4.0
+django-apscheduler==0.7.0
+httpx==0.28.1
+Pillow==11.1.0
+psycopg2-binary==2.9.10
+psycopg==3.2.6
+asyncpg==0.30.0
+python-certifi-win32
+celery==5.5.3 
+whitenoise==6.11.0
+# aiogram==3.19.0
