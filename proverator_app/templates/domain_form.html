@@ -1,0 +1,30 @@
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-2 rounded-lg shadow-lg w-full ">
+
+    <form method="post" action="/submit-domain/" novalidate>
+      {% csrf_token %}
+
+      <div class="mb-4">
+        <label for="domain" class="block text-gray-700 font-medium mb-2"
+          >Добавить домен</label
+        >
+        <input
+          type="text"
+          id="domain"
+          name="domain"
+          placeholder="example.com или https://example.com"
+          value="{{ value }}"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 {% if errors %}border-red-500{% else %}border-gray-300{% endif %}"
+        />
+        
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+      >
+        Добавить
+      </button>
+    </form>
+  </div>
+</body>

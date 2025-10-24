@@ -1,0 +1,90 @@
+{% extends "main.html" %}
+{% block monitor %}
+  
+  <body class="bg-gray-50 text-gray-800 p-6">
+    <div class="max-w-3xl  mx-auto bg-white shadow-lg rounded-2xl p-6">
+      <h1 class="text-center text-xl font-semibold mb-1">
+        Мониторинг доступности {{ domain }}
+      </h1>
+      <p class="text-center text-sm text-gray-500 mb-6">
+        Последнее обновление: {{ last_check_time }}
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div class="bg-gray-100 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-green-600">{{ status_code }}</p>
+          <p class="text-sm text-gray-600">Статус код</p>
+        </div>
+        <div class="bg-gray-100 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-blue-600">
+            {{ response_time }}ms
+          </p>
+          <p class="text-sm text-gray-600">Время ответа</p>
+        </div>
+        <div class="bg-gray-100 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-purple-600">
+            {{ uptime_percent }}%
+          </p>
+          <p class="text-sm text-gray-600">Аптайм (24ч)</p>
+        </div>
+        <div class="bg-gray-100 rounded-xl p-4 text-center">
+          <p class="text-2xl font-semibold text-orange-500">
+            {{ last_check_time }}
+          </p>
+          <p class="text-sm text-gray-600">Последняя проверка</p>
+        </div>
+      </div>
+
+      <!-- Карточка сайта -->
+      <div class="flex items-center mb-6">
+        {% if is_up %}
+        <span class="w-3 h-3 rounded-full bg-green-500 mr-2"></span>
+        {% else %}
+        <span class="w-3 h-3 rounded-full bg-red-500 mr-2"></span>
+        {% endif %}
+        <div>
+          <p class="text-lg font-semibold">Сайт</p>
+          <a href="{{ url }}" class="text-blue-600 hover:underline"
+            >{{ url }}</a
+          >
+        </div>
+      </div>
+
+      <!-- История доступности -->
+      <div>
+        <h2 class="text-md font-semibold mb-2">
+          История доступности (последние 24 часа)
+        </h2>
+        <div class="bg-gray-100 rounded-lg p-3 flex flex-col gap-1">
+          {% for row in history %}
+          <div class="flex flex-wrap gap-1">
+            {% for point in row %} {% if point == "up" %}
+            <span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span>
+            {% elif point == "down" %}
+            <span class="w-3 h-3 bg-red-500 rounded-full inline-block"></span>
+            {% else %}
+            <span class="w-3 h-3 bg-gray-300 rounded-full inline-block"></span>
+            {% endif %} {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+        <div 
+          class="flex items-center justify-start gap-3 mt-3 text-sm text-gray-600"
+        >
+          <span class="flex items-center gap-1"
+            ><span class="w-3 h-3 bg-green-500 rounded-full"></span>
+            Доступен</span
+          >
+          <span class="flex items-center gap-1"
+            ><span class="w-3 h-3 bg-red-500 rounded-full"></span>
+            Недоступен</span
+          >
+          <span class="flex items-center gap-1"
+            ><span class="w-3 h-3 bg-gray-300 rounded-full"></span> Нет
+            данных</span
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+{% endblock %}

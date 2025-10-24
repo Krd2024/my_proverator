@@ -17,4 +17,5 @@ python-certifi-win32
 celery==5.5.3 
 whitenoise==6.11.0
 gunicorn
+tldextract==5.3.0 
 # aiogram==3.19.0
