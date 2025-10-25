@@ -15,7 +15,7 @@ class Domain(models.Model):
 class Request(models.Model):
     domain = models.ForeignKey(Domain, verbose_name="Домен", on_delete=models.CASCADE)
     status_code=models.IntegerField(verbose_name="Статус код")
-    response_time=models.DurationField(verbose_name="Время ответа")
+    response_time=models.BigIntegerField(verbose_name="Время ответа")
     verified_at  = models.DateTimeField(auto_now_add=True,verbose_name="Дата и время проверки")
 
     class Meta:
