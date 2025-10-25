@@ -5,7 +5,7 @@ from loguru import logger
 from proverator_app.models import Domain, Request
 from proverator_app.services.db import get_domain
 from proverator_app.services.util import chunk_history
-from .forms import DomainForm
+from .forms import DomainForm, DomainSelectForm
 from django.contrib import messages
 
 
@@ -39,16 +39,14 @@ def domain_view(request):
 
 
 
-test = ["up", "down"] * 200 + [None]
-
-
 def monitor(request, domain_id: int = None):
     """Отображант по-умолчанию данные проверки по последнему добавленному домену"""
-    
-    context = get_domain(domain_id)
-
+    if request.method == "POST":
+        context = get_domain(request.POST.get("domain"))
+    else:
+        context = get_domain()
+    context["form"] = DomainSelectForm()
     logger.debug(context)
-
     # context = {
     #     "domain": "example.com",
     #     "status_code": 0,

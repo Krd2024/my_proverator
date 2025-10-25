@@ -32,7 +32,7 @@ def uptime_cal(downtime: int = 0, total_time: int = 0) -> float:
         logger.error(e)
 
 
-def pars_requests(domain: QuerySet) -> dict[str, str | int]:
+def pars_requests(domains: QuerySet) -> dict[str, str | int]:
     """Распарсить данные запросов"""
 
     context = {}
@@ -41,40 +41,46 @@ def pars_requests(domain: QuerySet) -> dict[str, str | int]:
     downtime = 0
     uptime = 0
     try:
-        for dom in domain:
+        domain = domains.last()
+        domain_query = domain.request_set.all()
+        for domain in domain_query:
             # Сайт
-            context["domain"] = str(dom).replace("http://", "")
-            for req in dom.request_set.all():
-                # Статус код
-                context["status_code"] = req.status_code
-                # Время ответа
-                context["response_time"] = req.response_time
-                # Последнее время проверки
-                context["last_check_time"] = (
-                    str(req.verified_at).split()[1].split(".")[0]
-                )
-                # Сайт
-                context["url"] = dom
-                # если статус 
-                if 200 <= req.status_code <= 226:
-                    lst_history.append("up")
-                    # Время работы
-                    uptime += VERIFI_PERIOD
-                else:
-                    # Время простоя
-                    downtime += VERIFI_PERIOD
-                    lst_history.append("down")
+            context["domain"] = str(domain.domain).replace("http://", "")
 
-        # Сколько работал сайт в % за время проверки - min=0 max=24 часа
-        context["uptime_percent"] = uptime_cal(
-            downtime=downtime, total_time=downtime + uptime
-        )
-        # Разбить данные о проверки сайта на чанги для графика
-        context["history"] = chunk_history(lst_history)
-        # Последнее в проверки (работал/не работал)
-        context["is_up"] = True if context["history"][-1][-1] == "up" else False
-        # Период проверки для вывода
-        context["total_time"] = round((downtime + uptime) / 60 / 60, 1)
+            logger.info(domain)
+
+            # Статус код
+            context["status_code"] = domain.status_code
+            # Время ответа
+            context["response_time"] = domain.response_time
+            # Последнее время проверки
+            context["last_check_time"] = (
+                str(domain.verified_at).split()[1].split(".")[0]
+            )
+            # Сайт
+            context["url"] = domain.domain
+            # если статус 
+            if 200 <= domain.status_code <= 226:
+                lst_history.append("up")
+                # Время работы
+                uptime += VERIFI_PERIOD
+            else:
+                # Время простоя
+                downtime += VERIFI_PERIOD
+                lst_history.append("down")
+
+            # Сколько работал сайт в % за время проверки - min=0 max=24 часа
+            context["uptime_percent"] = uptime_cal(
+                downtime=downtime, total_time=downtime + uptime
+            )
+            # Разбить данные о проверки сайта на чанги для графика
+            context["history"] = chunk_history(lst_history)
+            # Последнее в проверки (работал/не работал)
+            context["is_up"] = True if context["history"][-1][-1] == "up" else False
+            # Период проверки для вывода
+            context["total_time"] = round((downtime + uptime) / 60 / 60, 1)
+            # Список доменов
+            context["domains"]=list(domains)
     except Exception as e:
         logger.error(e)
     return context
