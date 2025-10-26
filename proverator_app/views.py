@@ -3,7 +3,7 @@ import idna
 from loguru import logger
 
 from proverator_app.models import Domain, Request
-from proverator_app.services.db import get_domain
+from proverator_app.services.db import add_domain, get_domain
 from proverator_app.services.util import chunk_history
 from .forms import DomainForm, DomainSelectForm
 from django.contrib import messages
@@ -20,13 +20,26 @@ def domain_view(request):
         form = DomainForm({"domain": value})
         if form.is_valid():
             domain = form.cleaned_data["domain"]
+            url_prefix = form.cleaned_data["url_prefix"]
+
+            logger.debug(url_prefix)
+
             # Вернёт читабельный вид, если домен - рф
             try:
                 my_domain = idna.decode(domain)
             except idna.IDNAError:
                 my_domain = domain
-            result = f"✅ Домен '{my_domain}' выглядит корректно."
-            messages.success(request, f"✅ Домен '{my_domain}' успешно добавлен!")
+
+
+
+            result:dict[str,str]= add_domain(f"{url_prefix}{my_domain}")
+
+
+
+            if result["results"]:
+                messages.success(request, result.get("message"))
+            else:
+                messages.error(request, result.get("message"))
 
             logger.debug(result)
         else:
@@ -39,22 +52,14 @@ def domain_view(request):
 
 
 
-def monitor(request, domain_id: int = None):
-    """Отображант по-умолчанию данные проверки по последнему добавленному домену"""
+def monitor(request):
+    """Отображант по-умолчанию данные проверки по первому добавленному домену"""
     if request.method == "POST":
         context = get_domain(request.POST.get("domain"))
     else:
         context = get_domain()
+
     context["form"] = DomainSelectForm()
+
     logger.debug(context)
-    # context = {
-    #     "domain": "example.com",
-    #     "status_code": 0,
-    #     "response_time": 0,
-    #     "uptime_percent": 0,
-    #     "last_check_time": "00:00:00",
-    #     "url": "https://example.com",
-    #     "is_up": True,
-    #     "history": chunk_history(test),
-    # }
     return render(request, "monitor.html", context)

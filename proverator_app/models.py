@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Domain(models.Model):
-    domain = models.URLField(verbose_name="Домен", max_length=200)
+    domain = models.URLField(verbose_name="Домен", max_length=200,unique=True)
 
     class Meta:
         verbose_name = "Домен"

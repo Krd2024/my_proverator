@@ -41,16 +41,13 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
     downtime = 0
     uptime = 0
     try:
-        domain = domains.last()
+        domain = domains.first()
         domain_query = domain.request_set.all()
         for domain in domain_query:
             # Сайт
             context["domain"] = str(domain.domain).replace("http://", "")
-
-            logger.info(domain)
-
             # Статус код
-            context["status_code"] = domain.status_code
+            context["status_code"] = domain.status_code 
             # Время ответа
             context["response_time"] = domain.response_time
             # Последнее время проверки
@@ -83,4 +80,5 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
             context["domains"]=list(domains)
     except Exception as e:
         logger.error(e)
+
     return context

@@ -18,10 +18,15 @@ class DomainForm(forms.Form):
 
         # Если URL — достаём hostname
         if raw.startswith(("http://", "https://")):
+            url_prefix = "https://" if raw.startswith("https://") else "http://"
+
             parsed = urlparse(raw)
             host = parsed.hostname
         else:
             host = raw
+            url_prefix= "http://"
+
+        self.cleaned_data["url_prefix"] = url_prefix
 
         if not host:
             raise forms.ValidationError("Не удалось определить домен.")

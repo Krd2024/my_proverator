@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='Domain',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('domain', models.URLField(verbose_name='Домен')),
+                ('domain', models.URLField(verbose_name='Домен',unique=True)),
             ],
             options={
                 'verbose_name': 'Домен',
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('status_code', models.IntegerField(verbose_name='Статус код')),
-                ('response_time', models.DurationField(verbose_name='Время ответа')),
+                ('response_time', models.BigIntegerField(verbose_name='Время ответа')),
                 ('verified_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата и время проверки')),
                 ('domain', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='proverator_app.domain', verbose_name='Домен')),
             ],
