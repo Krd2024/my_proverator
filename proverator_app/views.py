@@ -59,5 +59,5 @@ def monitor(request):
 
     context["form"] = DomainSelectForm()
 
-    logger.debug(context)
+    # logger.debug(context)
     return render(request, "monitor.html", context)

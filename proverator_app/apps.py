@@ -28,7 +28,13 @@ class ProveratorAppConfig(AppConfig):
         except admin.sites.NotRegistered:
             pass
 
-        from .signals import tasks_check_domains
+        from .signals import tasks_check_domains,tasks_clear_domains
         
-        # Регистрация обработчика
+        # Регистрация обработчиков задач
+        # чтобы задачи создавались автоматически после применения миграций
         post_migrate.connect(tasks_check_domains, sender=self)
+        post_migrate.connect(tasks_clear_domains, sender=self)
+
+        # чтобы задачи были зарегистрированы даже без запуска миграций
+        # tasks_check_domains()
+        # tasks_clear_domains()

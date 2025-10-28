@@ -47,24 +47,24 @@ def domain_all() -> list[object]:
 
 
 def create_results_requests(results: list[dict[str, str | int]]):
+    """ 
+    Записать рузультаты проверки доступности доменов.
+    Создаёт список объектов для массовой вставки.
+    """
     try:
         lst_obj_request = []
         for data in results:
-            logger.debug(data)
-
             try:
                 lst_obj_request.append(
                     Request(
                         domain_id=int(data.get("domain_id")),
                         status_code=data.get("status"),
                         response_time=data.get("time_ms"),
-                        verified_at=timezone.now(),
+                        # verified_at=timezone.now(),
                     )
                 )
             except Exception as e:
                 logger.error(e)
-        logger.info(lst_obj_request)
-
         Request.objects.bulk_create(lst_obj_request)
 
     except Exception as e:
