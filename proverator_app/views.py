@@ -1,12 +1,10 @@
 from django.shortcuts import redirect, render
-import idna
-from loguru import logger
-
-from proverator_app.models import Domain, Request
-from proverator_app.services.db import add_domain, get_domain
-from proverator_app.services.util import chunk_history
-from .forms import DomainForm, DomainSelectForm
 from django.contrib import messages
+from loguru import logger
+import idna
+
+from proverator_app.services.db import add_domain, get_domain
+from .forms import DomainForm, DomainSelectForm
 
 
 def domain_view(request):

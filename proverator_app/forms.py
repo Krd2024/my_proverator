@@ -10,13 +10,17 @@ DOMAIN_RE = re.compile(r"^[a-z0-9.-]+\.[a-z0-9-]{2,}$", re.IGNORECASE)
 
 
 class DomainForm(forms.Form):
+
+    """
+    Форма для ввода домена с валидацией и преобразованием в Punycode.
+    """
     domain = forms.CharField(max_length=255)
 
     def clean_domain(self):
         raw = self.cleaned_data["domain"].strip()
         logger.debug(f"Raw input: {raw}")
 
-        # Если URL — достаём hostname
+        # Если URL — достать hostname
         if raw.startswith(("http://", "https://")):
             url_prefix = "https://" if raw.startswith("https://") else "http://"
 
@@ -55,6 +59,9 @@ class DomainForm(forms.Form):
 
 
 class DomainSelectForm(forms.Form):
+    """
+    Форма для выбора одного домена из списка всех доступных.
+    """
     domain = forms.ModelChoiceField(
         queryset=Domain.objects.all(),
         label="Выбрать домен",

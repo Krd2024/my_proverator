@@ -1,7 +1,8 @@
-from loguru import logger
 from django.db.models import QuerySet
-from decouple import config
 from django.utils import timezone
+from decouple import config
+from loguru import logger
+
 VERIFI_PERIOD = int(config("VERIFI_PERIOD"))
 
 
@@ -100,7 +101,7 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
 
             # Период проверки для вывода
             context["total_time"] = round((downtime + uptime) / 60 / 60, 1)
-            
+
             # Список доменов
             context["domains"] = list(domains)
     except Exception as e:
