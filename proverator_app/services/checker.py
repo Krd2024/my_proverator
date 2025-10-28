@@ -18,9 +18,22 @@ async def check_url(client: httpx.AsyncClient, url: object) -> dict[str,str|int]
         }
     except httpx.RequestError as exc:
         request_ms = (time.perf_counter() - start) * 1000
-
         logger.warning(f"{url} -> Ошибка запроса: {exc}")
-        return {"url": url, "status": "error", "time_ms": int(request_ms)}
+        return {
+            "domain_id":url.id,
+            "url": url,
+            "status": 0,
+            "time_ms": int(request_ms),
+        }
+
+    except Exception as e:
+        logger.error(e)
+        return {
+            "domain_id":url.id,
+            "url": url,
+            "status": -1,
+            "time_ms": int(request_ms),
+        }
 
 
 async def check_all(urls:list[object]) -> dict[str,str|int]:

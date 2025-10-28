@@ -28,22 +28,13 @@
             {% endif %}
         </div>
         <div class="flex flex-col items-center mb-6 mt-10 gap-5">
-
-            <div class="w-full ">{% include "domain_form.html" %}</div>
-
-
-
-            <div class="bg-white p-2 rounded-lg shadow-lg w-full ">
-                <div class="space-y-4">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit"
-                            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Выбрать</button>
-                    </form>
-                </div>
+            <!-- Добавить домен -->
+            <div class="w-full ">
+                {% include "add_domain.html" %}
             </div>
-
+            
+            <!-- Получить домен -->
+            {% include "get_domain.html" %}
         </div>
         <div>{% block monitor %} {% endblock %}</div>
     </div>
