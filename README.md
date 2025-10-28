@@ -75,6 +75,14 @@ http://localhost:8000/
 docker-compose exec web python manage.py createsuperuser
 ```
 
+### Зайти в админку (используя имя и пароль суперпользователя) по адресу:
+```bash
+http://localhost:8000/admin/
+```
+
+<img width="1831" height="1059" alt="2025-10-28_21-30-15" src="https://github.com/user-attachments/assets/dc1d19a8-afdd-4778-8ac8-0c972f9c9cce" />
+
+
 ### 🔹Остановка контейнеров
 ```bash
 docker-compose stop
@@ -83,14 +91,6 @@ docker-compose stop
 ```bash
 docker-compose down -v
 ```
-
-### Зайти в админку (используя имя и пароль суперпользователя) по адресу:
-```bash
-http://localhost:8000/admin/
-```
-
-<img width="1831" height="1059" alt="2025-10-28_21-30-15" src="https://github.com/user-attachments/assets/dc1d19a8-afdd-4778-8ac8-0c972f9c9cce" />
-
 
 
 
