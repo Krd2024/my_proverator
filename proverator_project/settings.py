@@ -82,8 +82,11 @@ WSGI_APPLICATION = "proverator_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-CELERY_BROKER_URL = "redis://redis:6379/0"
-CELERY_RESULT_BACKEND = "redis://redis:6379/0"
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+
+# CELERY_BROKER_URL = "redis://redis:6379/0"
+# CELERY_RESULT_BACKEND = "redis://redis:6379/0"
 CELERY_TASK_TIME_LIMIT = 120
 CELERY_TASK_SOFT_TIME_LIMIT = 100
 CELERY_TASK_ACKS_LATE = True
@@ -103,23 +106,23 @@ CACHES = {
     }
 }
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB"), 
-        "USER": config("POSTGRES_USER"), 
-        "PASSWORD": config("POSTGRES_PASSWORD"), 
-        "HOST": config("POSTGRES_HOST"),  
-        "PORT": config("POSTGRES_PORT"), 
-    }
-}
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": config("POSTGRES_DB"), 
+#         "USER": config("POSTGRES_USER"), 
+#         "PASSWORD": config("POSTGRES_PASSWORD"), 
+#         "HOST": config("POSTGRES_HOST"),  
+#         "PORT": config("POSTGRES_PORT"), 
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

@@ -25,7 +25,7 @@
           <p class="text-2xl font-semibold text-purple-600">
             {{ uptime_percent }}%
           </p>
-          <p class="text-sm text-gray-600">Аптайм ({{total_time}} ч.)</p>
+          <p class="text-sm text-gray-600">Работа (24 часа)</p>
         </div>
         <div class="bg-gray-100 rounded-xl p-4 text-center">
           <p class="text-2xl font-semibold text-orange-500">
@@ -53,7 +53,7 @@
       <!-- История доступности -->
       <div>
         <h2 class="text-md font-semibold mb-2">
-          История доступности (последние {{total_time}} ч.)
+          История доступности (последние 24 часа)
         </h2>
         <div class="bg-gray-100 rounded-lg p-3 flex flex-col gap-1">
           {% for row in history %}

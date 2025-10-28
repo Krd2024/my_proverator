@@ -1,7 +1,8 @@
 from loguru import logger
 from django.db.models import QuerySet
+from decouple import config
 
-from proverator_app.tasks import VERIFI_PERIOD
+VERIFI_PERIOD = int(config("VERIFI_PERIOD"))
 
 
 def chunk_history(history: list[str], parts: int = 12) -> list[list[str], list[str]]:
@@ -12,28 +13,25 @@ def chunk_history(history: list[str], parts: int = 12) -> list[list[str], list[s
 
     chunk_size = len(history) // parts or 1
     chunks = [history[i : i + chunk_size] for i in range(0, len(history), chunk_size)]
-    return chunks
+    # return chunks
     return chunks[:parts]
 
 
 def uptime_cal(downtime: int = 0, total_time: int = 0) -> float:
     """Расчитать время доступности сайта"""
 
-    logger.info(f"downtime={downtime} | total_time={total_time}")
-
     if total_time <= 0:
         return 0.0
 
     try:
         uptime_percent = (total_time - downtime) / total_time * 100
-        print(f"Uptime: {uptime_percent:.2f}%")
         return round(uptime_percent, 2)
     except Exception as e:
         logger.error(e)
 
 
 def pars_requests(domains: QuerySet) -> dict[str, str | int]:
-    """Распарсить данные запросов"""
+    """Распарсить данные запросов по одному домену"""
 
     context = {}
     # Список значений о работе сайта (up, down)
@@ -42,12 +40,16 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
     uptime = 0
     try:
         domain = domains.first()
-        domain_query = domain.request_set.all()
+        # domain_query = domain.request_set.all()
+
+        # Домен и список запросов, срез 288 шт.
+        domain_query = domain.request_set.order_by("verified_at")[:int(config('NUM_REQUESTS'))]
+
         for domain in domain_query:
             # Сайт
             context["domain"] = str(domain.domain).replace("http://", "")
             # Статус код
-            context["status_code"] = domain.status_code 
+            context["status_code"] = domain.status_code
             # Время ответа
             context["response_time"] = domain.response_time
             # Последнее время проверки
@@ -56,7 +58,7 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
             )
             # Сайт
             context["url"] = domain.domain
-            # если статус 
+            # если статус в рамках 
             if 200 <= domain.status_code <= 226:
                 lst_history.append("up")
                 # Время работы
@@ -77,7 +79,7 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
             # Период проверки для вывода
             context["total_time"] = round((downtime + uptime) / 60 / 60, 1)
             # Список доменов
-            context["domains"]=list(domains)
+            context["domains"] = list(domains)
     except Exception as e:
         logger.error(e)
 

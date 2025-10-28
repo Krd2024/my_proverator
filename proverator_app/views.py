@@ -11,6 +11,7 @@ from django.contrib import messages
 
 def domain_view(request):
     """Добавить домен в БД для мониторинга"""
+    
     errors = []
     value = ""
     result = None
@@ -31,10 +32,7 @@ def domain_view(request):
                 my_domain = domain
 
 
-
             result:dict[str,str]= add_domain(f"{url_prefix}{my_domain}")
-
-
 
             if result["results"]:
                 messages.success(request, result.get("message"))

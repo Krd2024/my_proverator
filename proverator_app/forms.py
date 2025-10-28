@@ -57,7 +57,7 @@ class DomainForm(forms.Form):
 class DomainSelectForm(forms.Form):
     domain = forms.ModelChoiceField(
         queryset=Domain.objects.all(),
-        label="Выберите домен",
+        label="Выбрать домен",
         empty_label="— не выбрано —",
         widget=forms.Select(attrs={
             "class": "w-full border text-gray-700 font-medium border-gray-300 mb-4 mt-2 rounded p-2 focus:outline-none focus:ring-1 focus:ring-blue-500",
