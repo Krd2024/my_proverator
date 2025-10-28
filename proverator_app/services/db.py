@@ -30,11 +30,11 @@ def add_domain(domain: str) -> None:
     try:
         Domain.objects.create(domain=domain)
     except IntegrityError:
-        return {"results": False, "message": f"❗ Домен '{domain}' уже существует!"}
+        return {"results": False, "message": f"⚠️ Домен {domain} уже существует!"}
     except Exception as e:
         logger.error(e)
         return {"results": False, "message": "f❗ {e}"}
-    return {"results": True, "message": f"✅ Домен '{domain}' успешно добавлен!"}
+    return {"results": True, "message": f"✅ Домен {domain} успешно добавлен!"}
 
 
 def domain_all() -> list[object]:
