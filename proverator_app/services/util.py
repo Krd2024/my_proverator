@@ -11,11 +11,12 @@ def chunk_history(history: list[str], parts = int(config('PARTS'))) -> list[list
 
     if not history:
         return [[] for _ in range(parts)]
+    
     try:
-        chunk_size = len(history) // parts or 1
-        chunks = [history[i : i + chunk_size] for i in range(0, len(history), chunk_size)]
-        # return chunks
-        return chunks[:parts]
+        buckets = [[] for _ in range(parts)]
+        for i, item in enumerate(history):
+            buckets[i % parts].append(item)
+        return buckets
     except Exception as e:
         logger.error(e)
 
