@@ -69,7 +69,7 @@ docker-compose up -d --build
 http://localhost:8000/
 ```
 
-<img width="865" height="1043" alt="2025-10-28_21-21-08" src="https://github.com/user-attachments/assets/fe004c2c-541e-45a5-9141-010860982758" />
+<img width="865" height="1043" alt="2025-10-28_21-21-08" src="image/main.png" />
 
 ### 🔹Создайте суперпользователя 
 ```bash
@@ -81,7 +81,7 @@ docker-compose exec web python manage.py createsuperuser
 http://localhost:8000/admin/
 ```
 
-<img width="1831" height="1059" alt="2025-10-28_21-30-15" src="https://github.com/user-attachments/assets/dc1d19a8-afdd-4778-8ac8-0c972f9c9cce" />
+<img width="1831" height="1059" alt="2025-10-28_21-30-15" src="image/admin.png" />
 
 
 ### 🔹Остановка контейнеров
