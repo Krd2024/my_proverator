@@ -18,19 +18,9 @@ https://solvit.space/projects/uptime_monitor
 ```bash
 git clone https://github.com/Krd2024/my_proverator.git
 ```
-
-### 🔹Создайте и активируйте виртуальное окружение:
-```sh
-python -m venv .venv
-.venv\Scripts\activate   
-```
-### 🔹Установите зависимости:
-```sh
-pip install -r requirements.txt   
-```
-
 ### 🔹Создайте .env файл с данными
 ```bash
+
 SECRET_KEY=django-insecure-@3v3&%81@&y%h#ro@bg-0*ocs-le@n2*yevxa$k&7f*=_4s+3^
 
 POSTGRES_DB=proverator_db
