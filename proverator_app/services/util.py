@@ -97,8 +97,17 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
         # Разбить данные о проверки сайта на чанги для графика
         context["history"] = chunk_history(lst_history)
 
-        # Последнее в проверки (работал/не работал)
-        context["is_up"] = True if context["history"][-1][-1] == "up" else False
+        try:
+            # Последнее в проверки (работал/не работал)
+            last_status = None
+            for row in reversed(context["history"]):
+                if row:  # если список не пустой
+                    last_status = row[-1]
+                    break
+
+            context["is_up"] = (last_status == "up") if last_status else False
+        except Exception as e:
+            logger.error(e)
 
         # Период проверки для вывода
         context["total_time"] = round((downtime + uptime) / 60 / 60, 1)
