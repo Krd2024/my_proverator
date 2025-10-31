@@ -90,21 +90,21 @@ def pars_requests(domains: QuerySet) -> dict[str, str | int]:
                 downtime += VERIFI_PERIOD
                 lst_history.append("down")
 
-            # Сколько работал сайт в % за время проверки - min=0 max=24 часа
-            context["uptime_percent"] = uptime_cal(
-                downtime=downtime, total_time=downtime + uptime
-            )
-            # Разбить данные о проверки сайта на чанги для графика
-            context["history"] = chunk_history(lst_history)
+        # Сколько работал сайт в % за время проверки - min=0 max=24 часа
+        context["uptime_percent"] = uptime_cal(
+            downtime=downtime, total_time=downtime + uptime
+        )
+        # Разбить данные о проверки сайта на чанги для графика
+        context["history"] = chunk_history(lst_history)
 
-            # Последнее в проверки (работал/не работал)
-            context["is_up"] = True if context["history"][-1][-1] == "up" else False
+        # Последнее в проверки (работал/не работал)
+        context["is_up"] = True if context["history"][-1][-1] == "up" else False
 
-            # Период проверки для вывода
-            context["total_time"] = round((downtime + uptime) / 60 / 60, 1)
+        # Период проверки для вывода
+        context["total_time"] = round((downtime + uptime) / 60 / 60, 1)
 
-            # Список доменов
-            context["domains"] = list(domains)
+        # Список доменов
+        context["domains"] = list(domains)
     except Exception as e:
         logger.error(e)
 
