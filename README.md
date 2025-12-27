@@ -13,7 +13,7 @@ https://solvit.space/projects/uptime_monitor
 
 ---
 
-### 🔹Клонируйте проекта
+### 🔹Клонируйте проект
 
 ```bash
 git clone https://github.com/Krd2024/my_proverator.git
